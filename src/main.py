@@ -12,6 +12,7 @@ def main():
     ready_packages = validate_pip_package_exists(args.name)
     show_packages_for_process(ready_packages, args.name)
 
+    s_package = SpackPackage(ready_packages["jsl"])
 
 def validate_pip_package_exists(potential_packages):
     if not potential_packages:
@@ -27,6 +28,7 @@ def validate_pip_package_exists(potential_packages):
 
 
 def show_packages_for_process(package_ready, all_packages):
+    """Display at the terminal a information about arability of provided package names"""
     print("Packages ready to convert:")
     for key, _ in package_ready.items():
         print(f"\t{key}")
@@ -53,6 +55,7 @@ def get_spack_repository() -> str:
 
 
 def create_directory(package_name):
+    """Create a package directory for the provided package name"""
     if not package_name.startswith('py-'):
         package_name = 'py-' + package_name
     target_path = os.path.join(get_spack_repository(),
@@ -74,5 +77,75 @@ def create_package(name, raw):
         f.write(raw)
 
 
+def prepare_template(name) -> str:
+    package_template = '''\
+    # Copyright 2013-2020 Lawrence Livermore National Security, LLC and other
+    # Spack Project Developers. See the top-level COPYRIGHT file for details.
+    #
+    # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+    # ----------------------------------------------------------------------------
+    # If you submit this package back to Spack as a pull request,
+    # please first remove this boilerplate and all FIXME comments.
+    #
+    # This is a template package file for Spack.  We've put "FIXME"
+    # next to all the things you'll want to change. Once you've handled
+    # them, you can save this file and test your package like this:
+    #
+    #     spack install {name}
+    #
+    # You can edit this file again by typing:
+    #
+    #     spack edit {name}
+    #
+    # See the Spack documentation for more information on packaging.
+    # ----------------------------------------------------------------------------
+    from spack import *
+    class {class_name}({base_class_name}):
+        """FIXME: Put a proper description of your package here."""
+        # FIXME: Add a proper url for your package's homepage here.
+        homepage = "{homepage}"
+        url      = "{url}"
+    '''
+
+    version = "version('{version_number}', sha256='{sha256}'"
+
+
+    dependencies = """"\
+    # FIXME: Add dependencies if required. Only add the python dependency
+    # if you need specific versions. A generic python dependency is
+    # added implicity by the PythonPackage class.
+    # depends_on('python@2.X:2.Y,3.Z:', type=('build', 'run'))
+    # depends_on('py-setuptools', type='build')
+    # depends_on('py-foo',        type=('build', 'run'))"""
+
+    body_def = """\
+    def build_args(self, spec, prefix):
+        # FIXME: Add arguments other than --prefix
+        # FIXME: If not needed delete this function
+        args = []
+        return args"""
+
+
+class SpackPackage(object):
+    content: dict = {}
+    versions: list = []
+    url: str = ""
+    homepage: str = ""
+    maintainers: list = []
+
+    def __init__(self, content):
+        self.content = content
+        self._url()
+
+        print(self.url)
+    def _url(self):
+        self.url = self.content["urls"][0]["url"]
+
+    # def _version_treatment(self):
+    #     for version in content[""]
+
+
+
 if __name__ == "__main__":
     main()
+
