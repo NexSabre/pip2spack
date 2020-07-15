@@ -2,7 +2,7 @@
 
 Automatically create a spack package base on the pypi.org information
 
-## Installation (not available yet)
+## Installation
 Later, the package will be added into pypi repository.
 ```
 pip install pip2spack
