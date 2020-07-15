@@ -15,6 +15,10 @@ def main():
     ready_packages = validate_pip_package_exists(args.name)
     show_packages_for_process(ready_packages, args.name)
 
+    generate_packages(ready_packages)
+
+
+def generate_packages(ready_packages):
     for key, value in ready_packages.items():
         print(f"INFO:: Generating package for the {key}")
         s_package = SpackPackage(value)
