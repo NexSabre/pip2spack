@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from main import SpackPackage
+from spack_package import SpackPackage
 from test_data import test_data as ready_packages
 
 
@@ -16,3 +16,10 @@ class TestSpackPackage(TestCase):
         self.spack.content['info']['name'] = "jsl-up"
         package_name = self.spack.package_name_builder()
         self.assertEqual("PyJslUp", package_name)
+
+    def test_generator_is_not_null(self):
+        return_message = self.spack._generate_data()
+        for key, value in return_message.items():
+            if key in ("depends_on_setuptools", ):
+                continue
+            self.assertTrue(value, msg=f'{key} is not true')
