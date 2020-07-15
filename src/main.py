@@ -15,11 +15,17 @@ def main():
     ready_packages = validate_pip_package_exists(args.name)
     show_packages_for_process(ready_packages, args.name)
 
-    s_package = SpackPackage(ready_packages["jsl"])
-    generated_file = s_package.generate_file()
+    for key, value in ready_packages.items():
+        print(f"INFO:: Generating package for the {key}")
+        s_package = SpackPackage(value)
+        generated_file = s_package.generate_file()
 
-    create_directory("jsl")
-    create_package("jsl", generated_file)
+        create_directory(key)
+        created_package_uri = create_package(key, generated_file)
+        print(f"_OK_:: Package for {key} was generated\n\t"
+              f":: If \'spack install py-{key}\' return any problems, try to uncomment:\n\t"
+              f":: \tdepends_on('py-setuptools', type='build')\n\t"
+              f":: at {created_package_uri}")
 
 
 def validate_pip_package_exists(potential_packages):
@@ -45,6 +51,8 @@ def show_packages_for_process(package_ready, all_packages):
     print("\nPackages not found:")
     for p in packages_not_found:
         print(f'\t{p}')
+    else:
+        print()
 
 
 def get_spack_repository() -> str:
@@ -78,13 +86,15 @@ def create_directory(package_name):
         return os.path.exists(target_path)
 
 
-def create_package(name, raw):
+def create_package(name, raw) -> str:
     if not name.startswith('py-'):
         name = 'py-' + name
     target_path = os.path.join(get_spack_repository(),
                                name)
     with open(os.path.join(target_path, 'package.py'), 'w') as f:
         f.write(raw)
+
+    return os.path.join(target_path, 'package.py')
 
 
 if __name__ == "__main__":

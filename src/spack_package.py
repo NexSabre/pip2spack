@@ -14,7 +14,6 @@ class SpackPackage:
         self.content = content
         self._url()
 
-        print(self.url)
         self._versions_formatter()
         self.version_builder()
 
