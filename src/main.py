@@ -14,6 +14,7 @@ def main():
 
     s_package = SpackPackage(ready_packages["jsl"])
 
+
 def validate_pip_package_exists(potential_packages):
     if not potential_packages:
         return
@@ -73,7 +74,7 @@ def create_directory(package_name):
 def create_package(name, raw):
     target_path = os.path.join(get_spack_repository(),
                                name)
-    with open(os.path.join(target_path, 'package.py'), 'w') as f:
+    with open(os.path.join(target_path, 'package.j2'), 'w') as f:
         f.write(raw)
 
 
@@ -109,7 +110,6 @@ def prepare_template(name) -> str:
 
     version = "version('{version_number}', sha256='{sha256}'"
 
-
     dependencies = """"\
     # FIXME: Add dependencies if required. Only add the python dependency
     # if you need specific versions. A generic python dependency is
@@ -132,20 +132,70 @@ class SpackPackage(object):
     url: str = ""
     homepage: str = ""
     maintainers: list = []
+    package_name: str = ''
+    summary: str = ''
 
     def __init__(self, content):
         self.content = content
         self._url()
 
         print(self.url)
+        self._versions_formatter()
+        print(self.version_builder())
+
     def _url(self):
         self.url = self.content["urls"][0]["url"]
 
-    # def _version_treatment(self):
-    #     for version in content[""]
+    def _homepage(self):
+        self.homepage = self.content['home_page']
 
+    def _versions_formatter(self):
+        for version, version_content in self.content['releases'].items():
+            try:
+                # TODO Not support .whl packages yet. Only source code in .tar.gz
+                if not version_content[0]['filename'].endswith('.tar.gz'):
+                    continue
+                self.versions.append(
+                    (str(version), str(version_content[0]['digests']['sha256']))
+                )
+            except IndexError:
+                continue
+        print(self.versions)
+
+    def version_builder(self) -> str:
+        raw_versions: str = ''
+        for v in self.versions:
+            raw_versions += f'version("{str(v[0])}", sha256="{str(v[1])}")\n'
+        return raw_versions
+
+    def package_name_builder(self) -> str:
+        name = self.content['info']['name']
+        if name[0].islower():
+            name = name[0].upper() + name[1:]
+
+        l_name = list(name)
+        for i in [index for index, element in enumerate(l_name) if element == '-']:
+            try:
+                if l_name[i+1].islower():
+                    l_name[i+1] = l_name[i+1].upper()
+            except:
+                pass
+            finally:
+                name = ''.join(l_name).replace('-', '')
+
+        if not name.startswith("Py"):
+            name = "Py" + name
+        return name
+
+    def summary_builder(self):
+        self.summary = self.content['summary']
 
 
 if __name__ == "__main__":
     main()
+    from jinja2 import Environment, PackageLoader, select_autoescape
 
+    env = Environment(loader=PackageLoader('src', 'templates'),
+                      autoescape=select_autoescape(['j2']))
+    template = env.get_template('package.j2')
+    print(template.render(description="sdfsdf"))
