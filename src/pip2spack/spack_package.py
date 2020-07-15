@@ -82,7 +82,7 @@ class SpackPackage:
         }
 
     def generate_file(self):
-        env = Environment(loader=PackageLoader('src', 'templates'),
+        env = Environment(loader=PackageLoader('pip2spack', 'templates'),
                           autoescape=select_autoescape(['j2']))
-        template = env.get_template('package.j2')
+        template = env.get_template('package.py')
         return template.render(**self._generate_data())
