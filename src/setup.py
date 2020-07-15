@@ -1,13 +1,13 @@
 import setuptools
 
-with open("README.md", "r") as fh:
+with open("../README.md", "r") as fh:
     long_description = fh.read()
 
-with open("VERSION", "r") as vr:
+with open("../VERSION", "r") as vr:
     version_number = vr.read()
 
 setuptools.setup(
-    name="md",
+    name="pip2spack",
     version=version_number,
     author="Nex Sabre",
     author_email="nexsabre@protonmail.com",
@@ -23,7 +23,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'pip2spack = src.main:main'
+            'pip2spack = pip2spack.main:main'
         ],
     },
 )

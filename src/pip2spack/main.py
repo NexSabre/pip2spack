@@ -4,7 +4,7 @@ import os
 
 import requests
 
-from spack_package import SpackPackage
+from pip2spack.spack_package import SpackPackage
 
 
 def main():

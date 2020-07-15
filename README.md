@@ -16,6 +16,12 @@ pip install setuptools wheel twine
 python setup.py sdist bdist_wheel
 ```
 
+Than go to `dist` directory and type
+
+```
+pip install pip2spack-0.1-py3-none-any.whl
+```
+
 ## Run
 Before you run the script download a spack and export `SPACK_ROOT`. 
 

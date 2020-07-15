@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from spack_package import SpackPackage
-from test_data import test_data as ready_packages
+from pip2spack.spack_package import SpackPackage
+from pip2spack.test_data import test_data as ready_packages
 
 
 class TestSpackPackage(TestCase):
