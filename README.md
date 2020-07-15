@@ -8,6 +8,14 @@ Later, the package will be added into pypi repository.
 pip install pip2spack
 ```
 
+# Build
+To build a .whl package
+
+```
+pip install setuptools wheel twine
+python setup.py sdist bdist_wheel
+```
+
 ## Run
 Before you run the script download a spack and export `SPACK_ROOT`. 
 
@@ -20,3 +28,4 @@ Example:
 ```
 pip2spack jsl 
 ```
+
