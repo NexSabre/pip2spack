@@ -22,22 +22,31 @@ class SpackPackage:
         self.homepage_builder()
 
     def _url(self):
-        self.url = self.content["urls"][0]["url"]
+        for url in self.content["urls"]:
+            if url["url"].endswith(".tar.gz"):
+                self.url = url["url"]
+        else:
+            if not self.url:
+                print("Source package was not found")
 
     def _homepage(self):
         self.homepage = self.content['home_page']
 
     def _versions_formatter(self):
         for version, version_content in self.content['releases'].items():
-            try:
-                # TODO Not support .whl packages yet. Only source code in .tar.gz
-                if not version_content[0]['filename'].endswith('.tar.gz'):
-                    continue
-                self.versions.append(
-                    (str(version), str(version_content[0]['digests']['sha256']))
-                )
-            except IndexError:
+            only_sdist_version = [x for x in version_content if (x["url"].endswith(".tar.gz") and x["packagetype"] == "sdist")]
+            if not only_sdist_version:
                 continue
+            for proper_version in only_sdist_version:
+                try:
+                    # TODO Not support .whl packages yet. Only source code in .tar.gz
+                    if not proper_version['filename'].endswith('.tar.gz'):
+                        continue
+                    self.versions.append(
+                        (str(version), str(proper_version['digests']['sha256']))
+                    )
+                except IndexError:
+                    continue
 
     def version_builder(self) -> str:
         raw_versions: str = ''
