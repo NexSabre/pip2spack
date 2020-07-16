@@ -22,12 +22,19 @@ class SpackPackage:
         self.homepage_builder()
 
     def _url(self):
+        def _generate_pypi_uri(filename_with_version):
+            return f'https://pypi.io/packages/source/{filename_with_version[0]}/' \
+                   f'{filename_with_version.split("-")[0]}/{filename_with_version}'
+
+        latest_filename: str = ''
         for url in self.content["urls"]:
             if url["url"].endswith(".tar.gz"):
-                self.url = url["url"]
-        else:
-            if not self.url:
-                print("Source package was not found")
+                latest_filename = url["url"].split('/')[-1]
+                break
+        self.url = _generate_pypi_uri(latest_filename)
+
+        if not self.url:
+            print("Source package was not found")
 
     def _homepage(self):
         self.homepage = self.content['home_page']
