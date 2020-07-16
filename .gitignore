@@ -1,1 +1,8 @@
 .idea
+dist/
+build/
+pip2spack.egg-info
+spack
+*/dist
+*/build
+*/pip2spack.egg-info

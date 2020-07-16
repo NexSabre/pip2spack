@@ -16,7 +16,7 @@ class {{ package_name }}(PythonPackage):
     homepage = "{{ homepage }}"
     url      = "{{ url }}"
 
-    {% for v in versions %}
+    {% for v in versions|reverse %}
     version('{{ v[0] }}', sha256='{{ v[1] }}'){% endfor %}
 
     # depends_on('python@2.7:2.8,3.4:', type=('build', 'run'))

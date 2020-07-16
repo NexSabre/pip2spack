@@ -1,0 +1,10 @@
+# 0.1.2
+- Fix: Version in the package.py is descending
+- Fix: All versions are listed (packagetype=sdist)
+- pip2spack always looking for the .tar.gz package
+
+# 0.1.1
+- Fix: Missing template
+
+# 0.1
+- Initial release
