@@ -16,7 +16,7 @@ setuptools.setup(
     version=version_number,
     author="Nex Sabre",
     author_email="nexsabre@protonmail.com",
-    description="",
+    description="Automatically create and update a spack package base on the pypi.org information",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/NexSabre/pip2spack",

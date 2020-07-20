@@ -1,3 +1,6 @@
+# 0.2.1
+- README.md and setup.py update
+
 # 0.2
 - Introduce a option to update specific builtin packages using --update
 
