@@ -10,12 +10,20 @@ from pip2spack.spack_package import SpackPackage
 def main():
     parser = argparse.ArgumentParser(description='Create a spack package base on:')
     parser.add_argument('name', type=str, nargs='+', help='Package name on the pypi.org')
+    parser.add_argument('-u', '--update', type=bool, action='store_true')
 
     args = parser.parse_args()
+
     ready_packages = validate_pip_package_exists(args.name)
     show_packages_for_process(ready_packages, args.name)
 
-    generate_packages(ready_packages)
+    if not args.update:
+        generate_packages(ready_packages)
+    else:
+        update_packages(ready_packages)
+
+def update_packages(ready_packages):
+    spack_directory
 
 
 def generate_packages(ready_packages):
