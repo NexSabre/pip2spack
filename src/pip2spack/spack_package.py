@@ -1,4 +1,7 @@
-from jinja2 import Environment, PackageLoader, select_autoescape
+import json
+
+import requests
+from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 
 class SpackPackage:
@@ -11,7 +14,7 @@ class SpackPackage:
     summary: str = ''
 
     def __init__(self, content):
-        self.content = content
+        self.content = self._download_missing_information(content)
         self._url()
 
         self._versions_formatter()
@@ -20,6 +23,25 @@ class SpackPackage:
         self.package_name_builder()
         self.summary_builder()
         self.homepage_builder()
+
+    @property
+    def get_versions(self):
+        self.versions = []
+        self._versions_formatter()
+        self.version_builder()
+        return self.versions
+
+    def _download_missing_information(self, content):
+        if isinstance(content, str):
+            if content.startswith('py-'):
+                content = content.replace("py-", '')
+            status = requests.get(f'https://pypi.org/pypi/{content}/json')
+            if status.status_code != 200:
+                print("Package doesnt not exist at PyPi.org")
+                raise
+            return json.loads(status.content)
+        else:
+            return content
 
     def _url(self):
         def _generate_pypi_uri(filename_with_version):
@@ -41,7 +63,8 @@ class SpackPackage:
 
     def _versions_formatter(self):
         for version, version_content in self.content['releases'].items():
-            only_sdist_version = [x for x in version_content if (x["url"].endswith(".tar.gz") and x["packagetype"] == "sdist")]
+            only_sdist_version = [x for x in version_content if
+                                  (x["url"].endswith(".tar.gz") and x["packagetype"] == "sdist")]
             if not only_sdist_version:
                 continue
             for proper_version in only_sdist_version:
@@ -102,3 +125,8 @@ class SpackPackage:
                           autoescape=select_autoescape(['j2']))
         template = env.get_template('package.py')
         return template.render(**self._generate_data())
+
+    def generate_custom_file(self, abspath: str, versions):
+        env = Environment(loader=FileSystemLoader(abspath))
+        template = env.get_template('package.py')
+        return template.render({"versions": versions})
