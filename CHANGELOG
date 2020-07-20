@@ -1,3 +1,6 @@
+# 0.2
+- Introduce a option to update specific builtin packages using --update
+
 # 0.1.4
 - Fix: Add missing requirements (install_requires) into setup.py
 
