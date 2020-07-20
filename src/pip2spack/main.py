@@ -5,12 +5,13 @@ import os
 import requests
 
 from pip2spack.spack_package import SpackPackage
+from spack import Spack, Package
 
 
 def main():
     parser = argparse.ArgumentParser(description='Create a spack package base on:')
+    parser.add_argument('-u', '--update', action='store_true')
     parser.add_argument('name', type=str, nargs='+', help='Package name on the pypi.org')
-    parser.add_argument('-u', '--update', type=bool, action='store_true')
 
     args = parser.parse_args()
 
@@ -22,8 +23,12 @@ def main():
     else:
         update_packages(ready_packages)
 
+
 def update_packages(ready_packages):
-    spack_directory
+    for p in ready_packages:
+        package = Package(package_name=p)
+        package.replace_structure_with_marker()
+        package.generate_modded_package()
 
 
 def generate_packages(ready_packages):
@@ -60,6 +65,10 @@ def show_packages_for_process(package_ready, all_packages):
         print(f"\t{key}")
 
     packages_not_found = [x for x in all_packages if x not in package_ready]
+    if not packages_not_found:
+        print()
+        return
+
     print("\nPackages not found:")
     for p in packages_not_found:
         print(f'\t{p}')
