@@ -4,9 +4,9 @@ from os import getenv, listdir
 from os.path import exists, join, relpath, abspath
 from typing import AnyStr
 
-import constants
-from constants import BUILDIN_REPOSITORY_REL_PATH
-from spack_package import SpackPackage
+import pip2spack.constants as constants
+from pip2spack.constants import BUILDIN_REPOSITORY_REL_PATH
+from pip2spack.spack_package import SpackPackage
 
 
 @dataclass

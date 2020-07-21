@@ -1,3 +1,6 @@
+# 0.2.2
+- Fix issue with incorrect import in .whl package
+
 # 0.2.1
 - README.md and setup.py update
 
