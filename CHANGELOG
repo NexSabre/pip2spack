@@ -1,3 +1,6 @@
+# 0.2.3
+- Add missing lib dataclasses
+
 # 0.2.2
 - Fix issue with incorrect import in .whl package
 
