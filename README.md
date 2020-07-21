@@ -1,8 +1,9 @@
 # pip2Spack
+![Test](https://github.com/NexSabre/pip2spack/workflows/Test/badge.svg?branch=master)
 
 Automatically create and update a spack package base on the pypi.org information.
 
-Cons
+__Cons__:
  - Faster create than builtin into option `spack create`
  - Update existing package without PR into spack's repository
  
@@ -42,7 +43,6 @@ pip install pip2spack-0.1-py3-none-any.whl
 
 ## Run
 Before you run the script download a spack and export `SPACK_ROOT`. 
-
 ### Create a new package
 To run a script, provide a package names:
 ```

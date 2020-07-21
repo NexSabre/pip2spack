@@ -1,12 +1,12 @@
 from unittest import TestCase
 
-from pip2spack.spack_package import SpackPackage
-from pip2spack.test_data import test_data as ready_packages
+from pip2spack.core.pypi_package import PyPiPackage
+from pip2spack.tests.test_data import test_data as ready_packages
 
 
 class TestSpackPackage(TestCase):
     def setUp(self) -> None:
-        self.spack = SpackPackage(ready_packages["jsl"])
+        self.spack = PyPiPackage(ready_packages["jsl"])
 
     def test_package_name_builder(self):
         package_name = self.spack.package_name_builder()

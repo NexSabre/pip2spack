@@ -4,7 +4,7 @@ import requests
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
 
 
-class SpackPackage:
+class PyPiPackage:
     content: dict = {}
     versions: list = []
     url: str = ""
@@ -31,7 +31,8 @@ class SpackPackage:
         self.version_builder()
         return self.versions
 
-    def _download_missing_information(self, content):
+    @staticmethod
+    def _download_missing_information(content):
         if isinstance(content, str):
             if content.startswith('py-'):
                 content = content.replace("py-", '')
@@ -121,12 +122,12 @@ class SpackPackage:
         }
 
     def generate_file(self):
-        env = Environment(loader=PackageLoader('pip2spack', 'templates'),
-                          autoescape=select_autoescape(['j2']))
-        template = env.get_template('package.py')
+        env = Environment(loader=PackageLoader('pip2spack', 'templates'))
+        template = env.get_template('package.j2')
         return template.render(**self._generate_data())
 
-    def generate_custom_file(self, abspath: str, versions):
+    @staticmethod
+    def generate_custom_file(abspath: str, versions):
         env = Environment(loader=FileSystemLoader(abspath))
         template = env.get_template('package.py')
         return template.render({"versions": versions})
