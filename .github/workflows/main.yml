@@ -27,7 +27,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude .git,__pycache__,build,dist,src/pip2spack/templates
     - name: Test with pytest
       run: |
-        cd src && python -m unittest discover tests/
+        cd src && python -m unittest discover pip2spack/tests/
     - name: Build a wheel package
       run: |
         cd src && pip install setuptools wheel twine && python setup.py sdist bdist_wheel

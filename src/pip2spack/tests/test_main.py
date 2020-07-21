@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from core.pypi_package import PyPiPackage
-from tests.test_data import test_data as ready_packages
+from pip2spack.core.pypi_package import PyPiPackage
+from pip2spack.tests.test_data import test_data as ready_packages
 
 
 class TestSpackPackage(TestCase):
