@@ -1,4 +1,4 @@
-BUILDIN_REPOSITORY_REL_PATH = "var/spack/repos/builtin/packages"
+BUILTIN_REPOSITORY_REL_PATH = "var/spack/repos/builtin/packages"
 
 MARKER_VERSION = "{% pip2spack_version_marker %}"
 MARKER_VERSION_TEMPLATE = """{% for v in versions|reverse %}

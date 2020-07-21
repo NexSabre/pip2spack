@@ -1,3 +1,7 @@
+# 1.0
+- Introduce refactored code
+- Better messages
+
 # 0.2.3
 - Add missing lib dataclasses
 
