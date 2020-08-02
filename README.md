@@ -4,10 +4,10 @@
 Automatically create and update a spack package base on the pypi.org information.
 
 __Cons__:
- - Faster create than builtin into option `spack create`
- - Update existing package without PR into spack's repository
+ - Faster package creation than using the default option `spack create`
+ - Automatic updating of existing packages with information contained on pypi.org
  
-
+ 
 ## TL;DR
 ```
 // install 
