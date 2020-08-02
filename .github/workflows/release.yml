@@ -1,5 +1,7 @@
 name: Release
-on: [deploy]
+on:
+  label:
+    types: [created]
 jobs:
   build:
 
