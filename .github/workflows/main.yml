@@ -31,3 +31,6 @@ jobs:
     - name: Build a wheel package
       run: |
         cd src && pip install setuptools wheel twine && python setup.py sdist bdist_wheel
+    - name: Build a binary wheel and a source tarball
+      run: |
+        python setup.py sdist bdist_wheel
