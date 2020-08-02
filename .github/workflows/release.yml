@@ -26,7 +26,7 @@ jobs:
         cd src && pip install setuptools wheel twine && python setup.py sdist bdist_wheel
     - name: Publish on pypi.org
       run: |
-        twine upload dist/*
+        cd src && twine upload dist/*
       env:
         TWINE_USERNAME: ${{ secrets.username }}
         TWINE_PASSWORD: ${{ secrets.password }}
