@@ -18,6 +18,9 @@ pip2spack create jsl
 
 // update a internal (bultin) package
 pip2spack update codecov 
+
+// download latest package locally 
+pip2spack download jsl codecov
 ```
 
 
@@ -70,3 +73,14 @@ pip2spack update codecov
 ```
 
 __Notice:__ You can not to create and update packages at once. These operations are separated (in actual version)
+
+
+### Downloading a newest packages locally
+Since v1.1, pip2spack is able to download latest `.tar.gz`/`.whl` package locally, using `download` command
+
+Example:
+```
+pip2spack download jsl codecov
+```
+
+Packages will be stored at the `temp` directory (depends on the OS), proper information wit storage place will be displayed.
