@@ -73,7 +73,7 @@ class Package:
 
     def update_newest_versions(self, package_name):
         sp = PyPiPackage(package_name)
-        file = sp.generate_custom_file(os.path.dirname(os.path.realpath(self.package_path)), sp.get_versions)
+        file = sp.generate_custom_file(os.path.dirname(os.path.realpath(self.package_path)), sp._get_versions)
         return file
 
     def save(self, new_file):

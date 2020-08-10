@@ -1,7 +1,11 @@
 import json
+from typing import List
+from urllib.request import Request
 
 import requests
 from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
+
+from pip2spack.framework.messages import Messages
 
 
 class PyPiPackage:
@@ -25,7 +29,7 @@ class PyPiPackage:
         self.homepage_builder()
 
     @property
-    def get_versions(self):
+    def _get_versions(self):
         self.versions = []
         self._versions_formatter()
         self.version_builder()
@@ -131,3 +135,24 @@ class PyPiPackage:
         env = Environment(loader=FileSystemLoader(abspath))
         template = env.get_template('package.py')
         return template.render({"versions": versions})
+
+    def download_versions(self, versions: List = None):
+        if not versions:
+            latest_version = self.content['info']['version']
+            latest_filename = self.content['releases'].get(latest_version)[0]["filename"]
+            Messages.warn(f"Missing versions parameter, downloading a latest one v{latest_version}")
+            r = requests.get(url=self.url)
+            self.__save_content(latest_filename, r.content)
+
+    @staticmethod
+    def __save_content(name: str, content: bytes):
+        import os
+        import tempfile
+        path = tempfile.gettempdir()
+        pip2spack = os.path.join(path, "pip2spack")
+        content_filename = os.path.join(pip2spack, name)
+        os.makedirs(pip2spack, exist_ok=True)
+
+        with open(content_filename, 'wb') as content_to_save:
+            content_to_save.write(content)
+            Messages.info(f"Content was saved into {content_filename}")
