@@ -1,13 +1,14 @@
 from argparse import ArgumentParser
 
 from pip2spack.actions.create.create_action import CreateAction
+from pip2spack.actions.dowload.download_action import DownloadAction
 from pip2spack.actions.update.update_action import UpdateAction
 from pip2spack.actions.version import ShowVersion
 from pip2spack.framework.messages import Messages
 
 
 class ActionDispatcher:
-    ACTION_HANDLERS = [CreateAction, ShowVersion, UpdateAction]
+    ACTION_HANDLERS = [CreateAction, DownloadAction, ShowVersion, UpdateAction]
 
     def __init__(self):
         self.parser = ArgumentParser()
