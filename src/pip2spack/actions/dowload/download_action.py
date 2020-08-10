@@ -15,7 +15,8 @@ class DownloadAction(Action):
         ready_packages = Verification(configuration.name).available_packages
         self.download(ready_packages)
 
-    def download(self, ready_packages):
+    @staticmethod
+    def download(ready_packages):
         for key, value in ready_packages.items():
             Messages.info(f"Download latest package for the {key}")
 

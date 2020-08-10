@@ -3,7 +3,7 @@ class Messages:
     def package_availability(available: list, unavailable: list):
         Messages.info("Package status")
         if available:
-            print("Available to convert:")
+            print("Available:")
             for key in available:
                 print(f"\t{key}")
 
@@ -12,7 +12,7 @@ class Messages:
             print()
             return
 
-        print("\nUnavailable to convert:")
+        print("\nUnavailable:")
         for p in packages_not_found:
             print(f'\t{p}')
         else:
