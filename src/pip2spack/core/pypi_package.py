@@ -16,12 +16,18 @@ class PyPiPackage:
     maintainers: list = []
     package_name: str = ''
     summary: str = ''
+    source: bool = None
+    automatic_approach: bool = None
 
     def __init__(self, content):
         self.content = self._download_missing_information(content)
-        self._url()
 
-        self._versions_formatter()
+        self._url(source=self.__detect_approach())
+
+        if self.source:
+            self._versions_formatter()
+        else:
+            self._wheel_versions_formatter()
         self.version_builder()
 
         self.package_name_builder()
@@ -34,6 +40,9 @@ class PyPiPackage:
         self._versions_formatter()
         self.version_builder()
         return self.versions
+
+    def __detect_approach(self) -> bool:
+        self.automatic_approach = True if self.content['urls'][0]['url'].endswith(".tar.gz") else False
 
     @staticmethod
     def _download_missing_information(content):
@@ -48,20 +57,32 @@ class PyPiPackage:
         else:
             return content
 
-    def _url(self):
+    def _url(self, source):
         def _generate_pypi_uri(filename_with_version):
+            if not filename_with_version:
+                raise Exception("Can not generate a proper master link to the package")
             return f'https://pypi.io/packages/source/{filename_with_version[0]}/' \
                    f'{filename_with_version.split("-")[0]}/{filename_with_version}'
 
-        latest_filename: str = ''
-        for url in self.content["urls"]:
-            if url["url"].endswith(".tar.gz"):
-                latest_filename = url["url"].split('/')[-1]
-                break
-        self.url = _generate_pypi_uri(latest_filename)
+        if source:
+            for url in self.content["urls"]:
+                if url["url"].endswith(".tar.gz"):
+                    self.url = _generate_pypi_uri(url["url"].split('/')[-1])
+                    self.source = True
+                    break
+        else:
+            # preferable packages are .tar.gz, but some author does not include it, they just provide .whl package
+            for u in self.content["urls"]:
+                if u["url"].endswith(".whl"):
+                    self.url = u["url"]
+                    self.source = False
+                    break
 
         if not self.url:
-            print("Source package was not found")
+            raise Exception("Source package was not found")
+
+        elif self.url and not self.source:
+            print("[Experimental] Using a wheel package...")
 
     def _homepage(self):
         self.homepage = self.content['home_page']
@@ -72,10 +93,27 @@ class PyPiPackage:
                                   (x["url"].endswith(".tar.gz") and x["packagetype"] == "sdist")]
             if not only_sdist_version:
                 continue
+
             for proper_version in only_sdist_version:
                 try:
                     # TODO Not support .whl packages yet. Only source code in .tar.gz
                     if not proper_version['filename'].endswith('.tar.gz'):
+                        continue
+                    self.versions.append(
+                        (str(version), str(proper_version['digests']['sha256']))
+                    )
+                except IndexError:
+                    continue
+
+    def _wheel_versions_formatter(self):
+        # TODO: Experimental support of the .whl. It can be pulled out if creates more cons than props
+        for version, version_content in self.content['releases'].items():
+            only_bdist_wheel_version = [x for x in version_content if
+                                        (x["url"].endswith(".whl") and x["packagetype"] == "bdist_wheel")]
+
+            for proper_version in only_bdist_wheel_version:
+                try:
+                    if not proper_version['filename'].endswith('.whl'):
                         continue
                     self.versions.append(
                         (str(version), str(proper_version['digests']['sha256']))
