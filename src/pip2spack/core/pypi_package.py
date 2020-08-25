@@ -17,7 +17,6 @@ class PyPiPackage:
     package_name: str = ''
     summary: str = ''
     source: bool = None
-    automatic_approach: bool = None
 
     def __init__(self, content):
         self.content = self._download_missing_information(content)
@@ -42,7 +41,7 @@ class PyPiPackage:
         return self.versions
 
     def __detect_approach(self) -> bool:
-        self.automatic_approach = True if self.content['urls'][0]['url'].endswith(".tar.gz") else False
+        return True if self.content['urls'][0]['url'].endswith(".tar.gz") else False
 
     @staticmethod
     def _download_missing_information(content):
