@@ -1,5 +1,6 @@
 # pip2Spack
 ![Test](https://github.com/NexSabre/pip2spack/workflows/Test/badge.svg?branch=master)
+[![PyPI version](https://badge.fury.io/py/pip2spack.svg)](https://badge.fury.io/py/pip2spack)
 
 Automatically create and update a spack package base on the pypi.org information.
 
