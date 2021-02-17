@@ -1,3 +1,6 @@
+# 1.3-alpha.0
+_Note: Version v1.2 was revoked due to incorrect numeration (missing alpha tag could mislead that this is the final version)_
+
 # 1.2
 - Add experimental support for .whl packages (there is no option to merge .tag.gz and .whl approach)
 
