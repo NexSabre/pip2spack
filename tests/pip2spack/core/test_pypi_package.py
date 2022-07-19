@@ -10,7 +10,7 @@ PYPI_CONFIGSHELL_FB_MOCK = """{"info": {"author": "", "author_email": "", "bugtr
 @pytest.fixture
 def mock_pypi_response(mocker):
     mocker.patch(
-        "src.pip2spack.core.pypi_package.PyPiPackage._download_missing_information",
+        "pip2spack.core.pypi_package.PyPiPackage._download_missing_information",
         return_value=json.loads(PYPI_CONFIGSHELL_FB_MOCK),
     )
 
