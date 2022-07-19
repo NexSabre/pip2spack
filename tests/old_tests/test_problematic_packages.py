@@ -1,6 +1,6 @@
 from unittest import TestCase, skip
 
-from src.pip2spack.core.pypi_package import PyPiPackage
+from pip2spack.core.pypi_package import PyPiPackage
 from tests.old_tests.test_data import test_data_ctypesgen as ready_packages
 
 

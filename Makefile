@@ -1,19 +1,19 @@
 .PHONY: clean
 clean:
 	@echo "Cleaning..."
-	rm -rf src/build src/dist src/pip2spack.egg-info
+	rm -rf build dist pip2spack.egg-info
 	@echo "Cleaning... Done"
 
 .PHONY: format
 format:
 	@echo "Formatting..."
 	python -m black -t py36 .
-	python -m isort src/ tests/ --profile black
+	python -m isort pip2spack/ tests/ --profile black
 	@echo "Formatting... Done"
 
 .PHONY: check
 check:
-	python -m black --check -t py36 src/ tests/
+	python -m black --check -t py36 pip2spack/ tests/
 
 .PHONY: test
 test:
@@ -22,7 +22,7 @@ test:
 .PHONY: build
 build:
 	@echo "Building..."
-	cd src; python setup.py sdist bdist_wheel --universal
+	python setup.py sdist bdist_wheel --universal
 	@echo "Building... Done"
 
 .PHONY: publish

@@ -1,12 +1,12 @@
 import setuptools
 
-with open("../README.md", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
-with open("../VERSION", "r") as vr:
+with open("VERSION", "r") as vr:
     version_number = vr.read()
 
-with open("../requirements.txt", "r") as req:
+with open("requirements.txt", "r") as req:
     requirements = []
     for l in req.readlines():
         requirements.append(l.rstrip())
