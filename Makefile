@@ -15,6 +15,10 @@ format:
 check:
 	python -m black --check -t py36 src/ tests/
 
+.PHONY: test
+test:
+	pytest tests/
+
 .PHONY: build
 build:
 	@echo "Building..."
