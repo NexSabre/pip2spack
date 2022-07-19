@@ -1,7 +1,7 @@
 from unittest import TestCase, skip
 
 from pip2spack.core.pypi_package import PyPiPackage
-from pip2spack.tests.test_data import test_data_ctypesgen as ready_packages
+from tests.old_tests.test_data import test_data_ctypesgen as ready_packages
 
 
 class Test_TestProblematicPackages(TestCase):

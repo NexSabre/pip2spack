@@ -8,7 +8,9 @@ class UpdateAction(Action):
     PARAM_NAME = "ACTION"
 
     def fill_parser_arguments(self):
-        self.parser.add_argument('name', type=str, nargs='+', help='Package name on the pypi.org')
+        self.parser.add_argument(
+            "name", type=str, nargs="+", help="Package name on the pypi.org"
+        )
 
     def process_action(self, configuration):
         ready_packages = Verification(configuration.name).available_packages

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from pip2spack.core.pypi_package import PyPiPackage
-from pip2spack.tests.test_data import test_data as ready_packages
+from tests.old_tests.test_data import test_data as ready_packages
 
 
 class TestSpackPackage(TestCase):
@@ -13,13 +13,13 @@ class TestSpackPackage(TestCase):
         self.assertEqual("PyJsl", package_name)
 
     def test_package_name_builder_replace_dash(self):
-        self.spack.content['info']['name'] = "jsl-up"
+        self.spack.content["info"]["name"] = "jsl-up"
         package_name = self.spack.package_name_builder()
         self.assertEqual("PyJslUp", package_name)
 
     def test_generator_is_not_null(self):
         return_message = self.spack._generate_data()
         for key, value in return_message.items():
-            if key in ("depends_on_setuptools", ):
+            if key in ("depends_on_setuptools",):
                 continue
-            self.assertTrue(value, msg=f'{key} is not true')
+            self.assertTrue(value, msg=f"{key} is not true")

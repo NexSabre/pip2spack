@@ -1,12 +1,22 @@
 name: Test
 on: [push]
 jobs:
+  verify:
+    name: Black & isort code verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-dev.txt
+      - name: Verify code
+        run: |
+          make check
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
 
     steps:
     - uses: actions/checkout@v2
