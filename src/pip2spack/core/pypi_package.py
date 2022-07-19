@@ -1,9 +1,8 @@
 import json
 from typing import List
-from urllib.request import Request
 
 import requests
-from jinja2 import Environment, PackageLoader, select_autoescape, FileSystemLoader
+from jinja2 import Environment, PackageLoader, FileSystemLoader
 
 from pip2spack.framework.messages import Messages
 
@@ -61,7 +60,7 @@ class PyPiPackage:
             if not filename_with_version:
                 raise Exception("Can not generate a proper master link to the package")
             return f'https://pypi.io/packages/source/{filename_with_version[0]}/' \
-                   f'{filename_with_version.split("-")[0]}/{filename_with_version}'
+                   f'{"-".join(filename_with_version.split("-")[:-1])}/{filename_with_version}'
 
         if source:
             for url in self.content["urls"]:
