@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from pip2spack.core.pypi_package import PyPiPackage
+from src.pip2spack.core.pypi_package import PyPiPackage
 from tests.old_tests.test_data import test_data as ready_packages
 
 

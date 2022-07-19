@@ -1,10 +1,10 @@
 from unittest import TestCase, skip
 
-from pip2spack.core.pypi_package import PyPiPackage
+from src.pip2spack.core.pypi_package import PyPiPackage
 from tests.old_tests.test_data import test_data_ctypesgen as ready_packages
 
 
-class Test_TestProblematicPackages(TestCase):
+class TestProblematicPackages(TestCase):
     def setUp(self) -> None:
         self.spack = PyPiPackage(ready_packages["ctypesgen"])
 
