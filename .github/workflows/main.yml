@@ -40,4 +40,4 @@ jobs:
         make test
     - name: Build a wheel package
       run: |
-        cd src && pip install setuptools wheel twine && python setup.py sdist bdist_wheel
+        pip install setuptools wheel twine && python setup.py sdist bdist_wheel
