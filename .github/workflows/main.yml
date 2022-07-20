@@ -20,7 +20,6 @@ jobs:
           make lint
   tests:
     name: Tests
-    needs: [verify]
     runs-on: ubuntu-latest
     strategy:
       matrix:
