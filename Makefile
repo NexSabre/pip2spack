@@ -12,3 +12,11 @@ build:
 
 publish:
 	twine upload src/dist/*
+
+.PHONY: dbuild
+dbuild:
+	docker build -t pip2spack .
+
+.PHONY: drun
+drun:
+	docker run -it pip2spack
