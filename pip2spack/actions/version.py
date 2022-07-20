@@ -2,8 +2,8 @@ from pip2spack.actions.action import Action
 
 
 class ShowVersion(Action):
-    ACTION = "version"
-    PARAM_NAME = "ACTION"
+    ACTION: str = "version"
+    PARAM_NAME: str = "ACTION"
 
     def fill_parser_arguments(self):
         pass

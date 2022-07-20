@@ -21,7 +21,7 @@ class Verification:
 
         packages_status = {}
         for package in potential_packages:
-            status = requests.get(f'https://pypi.org/pypi/{package}/json')
+            status = requests.get(f"https://pypi.org/pypi/{package}/json")
             if status.status_code != 200:
                 continue
             packages_status[package] = json.loads(status.content)

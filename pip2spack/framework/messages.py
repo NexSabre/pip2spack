@@ -14,7 +14,7 @@ class Messages:
 
         print("\nUnavailable:")
         for p in packages_not_found:
-            print(f'\t{p}')
+            print(f"\t{p}")
         else:
             print()
 
