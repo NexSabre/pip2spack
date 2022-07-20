@@ -2,7 +2,7 @@ name: Test
 on: [push]
 jobs:
   verify:
-    name: Black & isort code verification
+    name: Code verification
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +19,8 @@ jobs:
         run: |
           make lint
   tests:
+    name: Tests
+    needs: [verify]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,6 +39,8 @@ jobs:
         run: |
           make test
   build:
+    name: Build
+    needs: [verify, tests]
     runs-on: ubuntu-latest
     strategy:
       matrix:
