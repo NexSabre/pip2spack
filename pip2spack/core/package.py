@@ -1,6 +1,5 @@
 import os
 from dataclasses import dataclass
-from typing import AnyStr
 
 from pip2spack.core.pypi_package import PyPiPackage
 from pip2spack.core.spack_repository import SpackRepository
@@ -10,15 +9,17 @@ from pip2spack.framework.messages import Messages
 
 @dataclass
 class Package:
-    package_name: AnyStr
-    package_path: AnyStr = None
-    _raw_package: AnyStr = None
+    package_name: str
+    package_path: str
+    _raw_package: str
 
-    versions = []
+    versions: list
+    modification_package: list
 
     def __post_init__(self):
-        s = SpackRepository()
-        self.package_path = s.get_package_path(package_name=self.package_name)
+        self.package_path = SpackRepository().get_package_path(
+            package_name=self.package_name
+        )
         self._open()
 
     def _open(self):
@@ -26,43 +27,45 @@ class Package:
             self._raw_package = package_py.read()
 
     def replace_structure_with_marker(self):
-        self.modificated_package = self._raw_package.split("\n")
-        if not isinstance(self.modificated_package, list):
+        self.modification_package = self._raw_package.split("\n")
+        if not isinstance(self.modification_package, list):
             raise
 
         rows_with_version = []
-        for index, content in enumerate(self.modificated_package):
+        for index, content in enumerate(self.modification_package):
             if "version(" in content:
                 rows_with_version.append((index, content.lstrip().rstrip()))
 
-        rows_with_version.reverse()  # start removing a empty rows from bottom file
+        rows_with_version.reverse()  # start removing an empty rows from bottom file
         for index, row in enumerate(rows_with_version):
             if index == 0:
-                self.modificated_package[row[0]] = self.modificated_package[
+                self.modification_package[row[0]] = self.modification_package[
                     row[0]
                 ].replace(row[1], constants.MARKER_VERSION)
             else:
-                del self.modificated_package[row[0]]
+                del self.modification_package[row[0]]
 
         self.replace_marker_with_template()
 
     def replace_marker_with_template(self):
         rows_with_version = []
-        for index, content in enumerate(self.modificated_package):
+        for index, content in enumerate(self.modification_package):
             if constants.MARKER_VERSION in content:
                 rows_with_version.append(index)
 
-        if not [x for x in self.modificated_package if constants.MARKER_VERSION in x]:
+        if not [x for x in self.modification_package if constants.MARKER_VERSION in x]:
             Messages.error(
-                f"{self.package_name} :: pip2spack can not find a 'version' tag.\n\t Please create a new package with:\n\t  pip2spack create {self.package_name}"
+                f"{self.package_name} :: pip2spack can not find a 'version' tag.\n\t"
+                f" Please create a new package with:\n\t"
+                f"  pip2spack create {self.package_name}"
             )
             return
 
-        rows_with_version.reverse()  # start removing a empty rows from bottom file
+        rows_with_version.reverse()  # start removing an empty rows from bottom file
         for index, row in enumerate(rows_with_version):
             if index == 0:
-                spaces = self._count_trailing_spaces(self.modificated_package[row])
-                self.modificated_package[row] = self.modificated_package[row].replace(
+                spaces = self._count_trailing_spaces(self.modification_package[row])
+                self.modification_package[row] = self.modification_package[row].replace(
                     constants.MARKER_VERSION, constants.marker_version_template(spaces)
                 )
             else:
@@ -92,8 +95,8 @@ class Package:
 
     def generate_modded_package(self, save: bool = False):
         if not save:
-            return "\n".join(self.modificated_package).lstrip()
-        self.save("\n".join(self.modificated_package).lstrip())
+            return "\n".join(self.modification_package).lstrip()
+        self.save("\n".join(self.modification_package).lstrip())
 
     @staticmethod
     def available_markers(marker_name):

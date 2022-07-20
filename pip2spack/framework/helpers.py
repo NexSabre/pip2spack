@@ -2,13 +2,14 @@ import os
 
 
 def get_spack_repository() -> str:
-    """Return a absolute path about spack repository"""
-    if not os.getenv("SPACK_ROOT", False):
+    """Return an absolute path about spack repository"""
+    spack_root = os.getenv("SPACK_ROOT", "")
+    if not spack_root:
         print("Please provide a information about SPACK_ROOT")
         exit(1)
 
     repository_suburi = os.path.relpath("var/spack/repos/builtin/packages/")
-    repository_full_path = os.path.join(os.getenv("SPACK_ROOT"), repository_suburi)
+    repository_full_path = os.path.join(spack_root, repository_suburi)
 
     if not os.path.exists(repository_full_path):
         print("Spack repository does not exists")

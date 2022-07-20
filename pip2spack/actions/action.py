@@ -3,8 +3,8 @@ from abc import abstractmethod
 
 
 class Action:
-    ACTION = None
-    PARAM_NAME = None
+    ACTION: str
+    PARAM_NAME: str
 
     def __init__(self, subparsers):
         self.parser = argparse.ArgumentParser(add_help=False)

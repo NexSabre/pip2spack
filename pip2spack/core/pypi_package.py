@@ -1,5 +1,5 @@
 import json
-from typing import List
+from typing import Any, Dict, List
 
 import requests
 from jinja2 import Environment, FileSystemLoader, PackageLoader
@@ -15,7 +15,7 @@ class PyPiPackage:
     maintainers: list = []
     package_name: str = ""
     summary: str = ""
-    source: bool = None
+    source: bool = False
 
     def __init__(self, content):
         self.content = self._download_missing_information(content)
@@ -43,17 +43,14 @@ class PyPiPackage:
         return True if self.content["urls"][0]["url"].endswith(".tar.gz") else False
 
     @staticmethod
-    def _download_missing_information(content):
-        if isinstance(content, str):
-            if content.startswith("py-"):
-                content = content.replace("py-", "")
-            status = requests.get(f"https://pypi.org/pypi/{content}/json")
-            if status.status_code != 200:
-                print("Package doesnt not exist at PyPi.org")
-                raise
-            return json.loads(status.content)
-        else:
-            return content
+    def _download_missing_information(package_name: str) -> Dict[str, Any]:
+        if package_name.startswith("py-"):
+            package_name = package_name.replace("py-", "")
+        status = requests.get(f"https://pypi.org/pypi/{package_name}/json")
+        if status.status_code != 200:
+            print("Package doesnt not exist at PyPi.org")
+            raise
+        return json.loads(status.content)
 
     def _url(self, source):
         def _generate_pypi_uri(filename_with_version):
@@ -143,8 +140,8 @@ class PyPiPackage:
             try:
                 if l_name[i + 1].islower():
                     l_name[i + 1] = l_name[i + 1].upper()
-            except:
-                pass
+            except Exception as e:
+                Messages.error(f"package_name_builder: {e}")
             finally:
                 name = "".join(l_name).replace("-", "")
 
