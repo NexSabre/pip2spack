@@ -35,5 +35,13 @@ build:
 	@echo "Building... Done"
 
 .PHONY: publish
-publish: clean format build
+publish:
 	twine upload dist/*
+
+.PHONY: dbuild
+dbuild:
+	docker build -t pip2spack .
+
+.PHONY: drun
+drun:
+	docker run -it pip2spack
