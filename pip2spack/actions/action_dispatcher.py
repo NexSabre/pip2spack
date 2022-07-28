@@ -13,8 +13,10 @@ class ActionDispatcher:
     def __init__(self):
         self.parser = ArgumentParser()
         subparsers = self.parser.add_subparsers()
-        self.action_handlers = {action_handler.ACTION: action_handler(subparsers) for action_handler in
-                                self.ACTION_HANDLERS}
+        self.action_handlers = {
+            action_handler.ACTION: action_handler(subparsers)
+            for action_handler in self.ACTION_HANDLERS
+        }
 
     def process_application(self):
         configuration = self.parser.parse_args()
@@ -23,8 +25,10 @@ class ActionDispatcher:
         except AttributeError:
             Messages.clean("pip2spack ::")
             Messages.clean("quick tool for pip -> spack package conversion\n")
-            Messages.clean("Choose operation:"
-                           "\n\t\t - create -- for creation a new package"
-                           "\n\t\t - update -- for update a existing package.py")
+            Messages.clean(
+                "Choose operation:"
+                "\n\t\t - create -- for creation a new package"
+                "\n\t\t - update -- for update a existing package.py"
+            )
             Messages.clean("")
             Messages.info("All information are base on the pypi.org")

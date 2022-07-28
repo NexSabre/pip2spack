@@ -1,3 +1,5 @@
+# 1.4.1
+- Bump Jinja2 2.11.0 -> 2.11.3
 
 # 1.4
 - Resolve issue #16 (@Spedoske) with wrong split package name
