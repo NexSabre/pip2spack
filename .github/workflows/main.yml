@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
+        python-version: [3.7, 3.8, 3.9, '3.10', '3.11']
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -57,3 +57,6 @@ jobs:
     - name: Build a wheel package
       run: |
         pip install setuptools wheel twine && python setup.py sdist bdist_wheel
+    - name: Install on the system
+      run: |
+        pip install dist/pip2spack* --force
