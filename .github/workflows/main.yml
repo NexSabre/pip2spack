@@ -65,7 +65,8 @@ jobs:
         mkdir spack_root_dir/var/spack/repos/builtin/packages
         export SPACK_ROOT=${PWD}/spack_root_dir
         pip2spack create scapy
+        VALUE=`ls spack_root_d/var/spack/repos/builtin/packages/py-scapy/ -1 | wc -l`
     - name: Verify test "create"
-      if: ${{ ls spack_root_d/var/spack/repos/builtin/packages/py-scapy/ -1 | wc -l }} != {{ 1 }}
+      if: ${{ VALUE }} != 1
       run: |
         exit 1
