@@ -33,5 +33,10 @@ def download(names: PACKAGE_TYPE):
     download_action(names=names)
 
 
+@app.command(help="Show version")
+def version() -> None:
+    print("pip2spack: v2.0.0a")
+
+
 if __name__ == "__main__":
     app()
