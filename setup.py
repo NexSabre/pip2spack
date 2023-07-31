@@ -3,17 +3,9 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-with open("VERSION", "r") as vr:
-    version_number = vr.read()
-
-with open("requirements.txt", "r") as req:
-    requirements = []
-    for l in req.readlines():
-        requirements.append(l.rstrip())
-
 setuptools.setup(
     name="pip2spack",
-    version=version_number,
+    version="2.0.0a",
     author="Nex Sabre",
     author_email="nexsabre@protonmail.com",
     description="Automatically create and update a spack package base on the pypi.org information",
@@ -28,8 +20,14 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    install_requires=requirements,
+    install_requires=[
+        "requests==2.22.0",
+        "jinja2==2.11.3",
+        "dataclasses==0.6",
+        "markupsafe==2.0.1",
+        "typer==0.9.0",
+    ],
     entry_points={
-        "console_scripts": ["pip2spack = pip2spack.main.main:main"],
+        "console_scripts": ["pip2spack = pip2spack.__main__:app"],
     },
 )

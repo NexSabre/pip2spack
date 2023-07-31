@@ -8,11 +8,11 @@ from pip2spack.framework.messages import Messages
 
 
 class PyPiPackage:
-    content: dict = {}
-    versions: list = []
+    content: Dict = {}
+    versions: List = []
     url: str = ""
     homepage: str = ""
-    maintainers: list = []
+    maintainers: List = []
     package_name: str = ""
     summary: str = ""
     source: bool = False

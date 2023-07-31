@@ -17,7 +17,7 @@ def get_spack_repository() -> str:
     return repository_full_path
 
 
-def create_directory(package_name):
+def create_directory(package_name) -> bool:
     """Create a package directory for the provided package name"""
     if not package_name.startswith("py-"):
         package_name = "py-" + package_name

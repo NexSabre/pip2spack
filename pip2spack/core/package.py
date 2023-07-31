@@ -1,5 +1,6 @@
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List, Optional
 
 from pip2spack.core.pypi_package import PyPiPackage
 from pip2spack.core.spack_repository import SpackRepository
@@ -10,11 +11,11 @@ from pip2spack.framework.messages import Messages
 @dataclass
 class Package:
     package_name: str
-    package_path: str
-    _raw_package: str
+    package_path: Optional[str] = None
+    _raw_package: Optional[str] = None
 
-    versions: list
-    modification_package: list
+    versions: List = field(default_factory=list)
+    modification_package: List = field(default_factory=list)
 
     def __post_init__(self):
         self.package_path = SpackRepository().get_package_path(
