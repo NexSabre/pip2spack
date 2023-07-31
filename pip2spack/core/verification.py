@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 import requests
 
@@ -6,7 +7,7 @@ from pip2spack.framework.messages import Messages
 
 
 class Verification:
-    def __init__(self, arguments: list):
+    def __init__(self, arguments: List[str]):
         self.__ready_packages = self.validate_pip_package_exists(arguments)
         self.show_packages_for_process(self.__ready_packages, arguments)
 

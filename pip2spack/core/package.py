@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+from typing import List
 
 from pip2spack.core.pypi_package import PyPiPackage
 from pip2spack.core.spack_repository import SpackRepository
@@ -13,8 +14,8 @@ class Package:
     package_path: str
     _raw_package: str
 
-    versions: list
-    modification_package: list
+    versions: List
+    modification_package: List
 
     def __post_init__(self):
         self.package_path = SpackRepository().get_package_path(

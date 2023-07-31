@@ -1,6 +1,9 @@
+from typing import List
+
+
 class Messages:
     @staticmethod
-    def package_availability(available: list, unavailable: list):
+    def package_availability(available: List, unavailable: List):
         Messages.info("Package status")
         if available:
             print("Available:")
