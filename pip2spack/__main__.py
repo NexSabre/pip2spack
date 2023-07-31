@@ -27,7 +27,7 @@ def update(names: PACKAGE_TYPE):
     update_action(names=names)
 
 
-@app.command(help="Download package")
+@app.command(help="Download the latest package from pypi.org")
 def download(names: PACKAGE_TYPE):
     get_spack_repository()
     download_action(names=names)
